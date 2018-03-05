@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://192.168.99.100/test');
 var db = mongoose.connection;
 var conectado = false;
 var User = require("../models/user");
