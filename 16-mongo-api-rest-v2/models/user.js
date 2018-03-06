@@ -4,7 +4,10 @@ var crypto = require('crypto');
 
 
 var UserSchema = new mongoose.Schema({
-    username: {type: String, lowercase: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true},
+    username: {type: String, lowercase: true, required: [true, "can't be blank"],unique: true, index: true},
+    email: String,
+    born: Date,
+    control: Boolean,
     bio: String,
     image: String,
     hash: String,

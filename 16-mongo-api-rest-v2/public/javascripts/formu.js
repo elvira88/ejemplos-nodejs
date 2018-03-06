@@ -56,6 +56,9 @@ function registrar(event){
     };
     objeto.nombre=$("#nombre").val();
     objeto.pass=$("#pass").val();
+    objeto.email=$("#email").val();
+    objeto.born=$("#born").val();
+    objeto.control=$("#control").val();
     $.post("/api/register",objeto,recoger)
         .fail(function(){
         console.log("petición fallida");
