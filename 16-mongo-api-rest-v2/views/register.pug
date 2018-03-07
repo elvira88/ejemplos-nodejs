@@ -33,7 +33,8 @@ block content
             div(class="valid-feedback") Correcto!
             div(class="invalid-feedback") Incorrecto!
         div(class="form-group")
-            label(for="control") Si, quiero controlar el uso de esta cuenta de BananaTUBE tm
-            input(class="form-control",id="control",name="control",type="checkbox", value="true",)
+            label(for="control") Si, quiero controlar el uso de esta cuenta de BananaTUBE &copy;
+            input(class="form-control invisible",id="control",name="control",type="radio", value="false")
+            input(class="form-control",id="control",name="control",type="radio", value="true")
         div(class="form-group")
             input(class="form-control btn btn-primary",type="submit",value="Enviar")
