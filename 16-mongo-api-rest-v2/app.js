@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://http://192.168.99.100:27017/');
-var db = moongoose.connection;
+var db = mongoose.connection;
 var uniqueValidator = require ('mongoose-unique-validator');
 var crypto = require ('crypto');
 
