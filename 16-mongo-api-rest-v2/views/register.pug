@@ -8,11 +8,15 @@ block content
     div(id="mensajes")
     form(class="needs-validation",method="post",action="",id="register",novalidate)
         div(class="form-group")
-            label(for="nombre") nombre
+            label(for="nombre") Nombre y Apellidos
             input(class="form-control",id="nombre",name="nombre",type="text",value="",placeholder="Nombre de usuario",required, minlength=6)
             div(class="valid-feedback") Correcto!
             div(class="invalid-feedback") Incorrecto!
-      
+        div(class="form-group")
+            label(for="email") Email
+            input(class="form-control",id="email",name="email",type="email",value="",required, placeholder="Introduzca su email")
+            div(class="valid-feedback") Correcto!
+            div(class="invalid-feedback") Incorrecto!
         div(class="form-group")
             label(for="pass") password
             input(class="form-control",id="pass",name="pass",type="password",value="",placeholder="Contraseña",required, minlength=8)
@@ -23,5 +27,14 @@ block content
             input(class="form-control",id="pass2",name="pass2",type="password",value="",placeholder="Repite Contraseña",required,minlength=8)
             div(class="valid-feedback") Correcto!
             div(class="invalid-feedback") Incorrecto!
+        div(class="form-group")
+            label(for="born") Fecha de nacimiento
+            input(class="form-control",id="born",name="born",type="date",value="",required)
+            div(class="valid-feedback") Correcto!
+            div(class="invalid-feedback") Incorrecto!
+        div(class="form-group")
+            label(for="control") Si, quiero controlar el uso de esta cuenta de BananaTUBE &copy;
+            input(class="form-control invisible",id="control",name="control",type="radio", value="false")
+            input(class="form-control",id="control",name="control",type="radio", value="true")
         div(class="form-group")
             input(class="form-control btn btn-primary",type="submit",value="Enviar")

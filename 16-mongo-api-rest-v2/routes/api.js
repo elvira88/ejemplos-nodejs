@@ -109,6 +109,7 @@ router.post('/edit/:id', function (req, res, next) {
         var objetoModificado = {};
         objetoModificado._id = req.params.id;
         objetoModificado.username = req.body.nombre;
+        objetoModificado.email = req.body.email;
         objetoModificado.hash = req.body.pass;
         console.log(objetoModificado);
         User.findByIdAndUpdate(
@@ -278,17 +279,26 @@ router.get('/registerForm', function (req, res, next) {
 
 router.post('/register', function (req, res, next) {
     if (conectado) {
-        console.log(req.body);
+        //console.log(req.body);
+       // if(req.body.control==undefined){
+        //    req.body.control=false;
+        //}
         var usuario = new User({
             username: req.body.nombre,
-            hash: req.body.pass
+            hash: req.body.pass,
+            email:req.body.email,
+            born:req.body.born,
+            control:req.body.control
         });
+        res.setHeader('Content-Type', 'application/json');
         usuario.save(function (err, userdevuelto) {
             if (err) {
+                //console.log(err);
+                res.send(JSON.stringify(userdevuelto));
                 return console.error(err);
             } else {
-                console.log("usuario guardado");
-                res.setHeader('Content-Type', 'application/json');
+                //console.log("usuario guardado");
+                
                 res.send(JSON.stringify(userdevuelto));
             }
         });

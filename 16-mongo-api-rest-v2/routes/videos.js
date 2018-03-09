@@ -66,6 +66,6 @@ router.post('/upload/', function (req, res, next){
 module.exports = router;
 //mostrar los creo yo
 //añadir y editar son parecidos 
-//el listrado devuelve un listado de objetos json 
+//el listado devuelve un listado de objetos json 
 //borrar devolver un objeto
 //subir a express
