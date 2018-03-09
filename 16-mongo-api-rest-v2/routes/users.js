@@ -1,61 +1,49 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://192.168.99.100/test');
+var db = mongoose.connection;
+var conectado = false;
+var User = require("../models/user");
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log("Conexion abierta");
+    conectado = true;
 
-router.get('/', function(req, res, next) {
-    res.send('Listado de usuarios');
-    var usuario=[{
-          name:'Laura M',
-          email:'laura@geners.com',
-          password:'laura88',
-          birthdate:'03/04/1988',
-          avatar:'2',
-          history:'200',
-          playlist:'2',
-          upload:'3',
-          comments:'40',
-      },{
-          name:'Elvira D',
-          email:'elvira@geners.com',
-          password:'elvira88',
-          birthdate:'15/09/1988',
-          avatar:'5',
-          history:'340',
-          playlist:'7',
-          upload:'0',
-          comments:'10',
-      },{
-          name:'Aritz C',
-          email:'aritz@geners.com',
-          password:'aritz93',
-          birthdate:'20/05/1993',
-          avatar:'1',
-          history:'1055',
-          playlist:'22',
-          upload:'17',
-          comments:'149',
-      },{
-          name:'Alvaro P',
-          email:'alvaro@geners.com',
-          password:'alvaro90',
-          birthdate:'31/12/1990',
-          avatar:'6',
-          history:'110',
-          playlist:'0',
-          upload:'0',
-          comments:'0',
-      }];
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(usuario));
 });
+var formidable = require('formidable');
+var fs = require('fs');
+
+//listado
+router.get('/', function(req, res, next) {
+    //res.send('Listado de usuarios');
+    if (conectado) {
+        res.setHeader('Content-Type', 'application/json');
+        User.find(function (err, users) {
+            if (err) return console.error(err);
+            //console.log(users);
+            res.send(JSON.stringify(users));
+        });
+
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+});
+//añadir
 router.post('/', function(req, res, next) {
   res.send('Añadir usuario');
 });
+//Coger por ID
 router.get('/:id', function(req, res, next) {
   res.send('Mostrar usuario '+ req.params.id);
 });
+//Editar por ID
 router.post('/:id', function(req, res, next) {
   res.send('Modificar usuario '+ req.params.id);
 });
+//Borrar por ID
 router.get('/delete/:id', function(req, res, next) {
   res.send('Borrar usuario '+ req.params.id);
 });
