@@ -89,7 +89,7 @@ router.post('/edit/:id', function(req, res, next) {
         objetoModificado.nombreYApellidos = req.body.nombreYApellidos;
         objetoModificado.email = req.body.email;
         objetoModificado.born = req.body.born;
-        objetoModificado.pasword = req.body.password;
+        objetoModificado.password = req.body.password;
         objetoModificado.avatar = req.body.avatar;
         objetoModificado.historial = req.body.historial;
         objetoModificado.listaDeReproduccion = req.body.listaDeReproduccion;
