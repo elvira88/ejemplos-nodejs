@@ -14,10 +14,134 @@ db.once('open', function () {
 var formidable = require('formidable');
 var fs = require('fs');
 
-function cogeLogin(session){
-    return session.usuario;
-}
-/* GET home page. */
+//listado
+router.get('/', function(req, res, next) {
+    //res.send('Listado de usuarios');
+    if (conectado) {
+        res.setHeader('Content-Type', 'application/json');
+        User.find(function (err, users) {
+            if (err) return console.error(err);
+            //console.log(users);
+            res.send(JSON.stringify(users));//
+        });
+
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+});
+//añadir
+router.post('/', function(req, res, next) {
+    if (conectado) {
+        console.log(req.body);
+        var usuario = new User({
+            username: req.body.nombre,
+            hash: req.body.pass
+        });
+        usuario.setPassword(req.body.pass);
+        usuario.save(function (err, userdevuelto) {
+            if (err) {
+                return console.error(err);
+            } else {
+                console.log("usuario guardado");
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(userdevuelto));
+            }
+        });
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+
+  res.send('Añadir usuario');
+});
+//Coger por ID
+router.get('/edita/:id', function(req, res, next) {
+    if (conectado) {
+        var objeto = {
+
+        };
+        objeto._id = req.params.id;
+        User.findOne(
+            //{_id:req.params.id}
+            objeto,
+            function (err, usuario) {
+                if (err) return console.error(err);
+                //console.log(users);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(usuario));
+            }
+        );
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+  res.send('Mostrar usuario '+ req.params.id);
+});
+//Editar por ID
+router.post('/edit/:id', function(req, res, next) {
+    if (conectado) {
+        var objetoModificado = {};
+        objetoModificado._id = req.params.id;
+        objetoModificado.nombreYApellidos = req.body.nombreYApellidos;
+        objetoModificado.email = req.body.email;
+        objetoModificado.born = req.body.born;
+        objetoModificado.password = req.body.password;
+        objetoModificado.avatar = req.body.avatar;
+        objetoModificado.historial = req.body.historial;
+        objetoModificado.listaDeReproduccion = req.body.listaDeReproduccion;
+        objetoModificado.videosSubidos = req.body.videosSubidos;
+        objetoModificado.comentarios = req.body.comentarios;
+        console.log(objetoModificado);
+        User.findByIdAndUpdate(
+            req.params.id,
+            objetoModificado,
+            function (err, usuario) {
+                if (err) return console.error(err);
+                console.log(usuario);
+                User.findById(
+                    req.params.id,
+                    function (err, usuario) {
+                        if (err) return console.error(err);
+                        console.log(usuario);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(usuario));
+                    }
+                );
+            }
+        );
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+  res.send('Modificar usuario '+ req.params.id);
+});
+//Borrar por ID
+router.get('/delete/:id', function(req, res, next) {
+    if (conectado) {
+        User.findByIdAndRemove(
+            req.params.id,
+            function (err, usuario) {
+                if (err) return console.error(err);
+                //console.log(users);
+                //FALTA BORRAR
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(usuario));
+            }
+        );
+    } else {
+        res.render('errorDB', {
+            title: 'Mongo No arrancado'
+        });
+    }
+  res.send('Borrar usuario '+ req.params.id);
+});
+module.exports = router;
+
 router.get('/', function (req, res, next) {
     res.render('api', {
         title: 'API Rest Mongo'
@@ -279,7 +403,11 @@ router.get('/registerForm', function (req, res, next) {
 
 router.post('/register', function (req, res, next) {
     if (conectado) {
-       var usuario = new User({
+        //console.log(req.body);
+       // if(req.body.control==undefined){
+        //    req.body.control=false;
+        //}
+        var usuario = new User({
             username: req.body.nombre,
             hash: req.body.pass,
             email:req.body.email,
