@@ -188,7 +188,7 @@ router.post('/add', function (req, res, next) {
             mensaje: req.body.mensaje,
             video: req.body.video
         });
-        usuario.save(function (err, comentarioDevuelto) {
+        comentario.save(function (err, comentarioDevuelto) {
             if (err) {
                 return console.error(err);
             } else {

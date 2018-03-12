@@ -3,14 +3,14 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 
 var VideoSchema = new mongoose.Schema({
-    _id:String,
     title:String,
     comments:String,
     rating:Number,
     views:Number,
     label:String,
     date:Date,
-    owner:String
+    owner:String,
+    url:String
 
 }, {timestamps: true,collection:"videos"});
 

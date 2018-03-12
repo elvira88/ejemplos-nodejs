@@ -3,7 +3,6 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 
 var ComentarioSchema = new mongoose.Schema({
-    _id: String,
     usuario: String,
     fecha: Date,
     mensaje: String,

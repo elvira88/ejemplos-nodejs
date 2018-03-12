@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://192.168.99.100/test');
 var db = mongoose.connection;
 var conectado = false;
-var videos = require("../models/videos");
+var Video = require("../models/videos");
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log("Conexion abierta");
@@ -13,9 +13,6 @@ db.once('open', function () {
 });
 var fs = require('fs');
 
-function cogeLogin(session){
-    return session.videos;
-}
 /* GET home page. */
 router.get('/', function (req, res, next) {
     /*res.render('api', {
@@ -24,7 +21,7 @@ router.get('/', function (req, res, next) {
      //res.send('Listado de comentarios');
     if (conectado) {
         res.setHeader('Content-Type', 'application/json');
-        Comentario.find(function (err,videos) {
+        Video.find(function (err,videos) {
             if (err) return console.error(err);
             //console.log(users);
             res.send(JSON.stringify(videos));
@@ -36,14 +33,14 @@ router.get('/', function (req, res, next) {
         });
     }
 });
-router.get('/get/:id', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
         var objeto = {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Video.findOne(
             //{_id:req.params.id}
             objeto,
             function (err, videos) {
@@ -67,7 +64,7 @@ router.get('/edita/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Video.findOne(
             objeto,
             function (err, videos) {
                 if (err) return console.error(err);
@@ -84,7 +81,7 @@ router.get('/edita/:id', function (req, res, next) {
     }
 
 });
-router.post('/edit/:id', function (req, res, next) {
+router.post('/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
         var objetoModificado = {};
@@ -96,14 +93,15 @@ router.post('/edit/:id', function (req, res, next) {
         objetoModificado.label = req.body.label;
         objetoModificado.date = req.body.date;
         objetoModificado.owner = req.body.owner;
+        objetoModificado.url = req.body.url;
         console.log(objetoModificado);
-        User.findByIdAndUpdate(
+        Video.findByIdAndUpdate(
             req.params.id,
             objetoModificado,
             function (err, videos) {
                 if (err) return console.error(err);
                 console.log(videos);
-                User.findById(
+                Video.findById(
                     req.params.id,
                     function (err, videos) {
                         if (err) return console.error(err);
@@ -128,7 +126,7 @@ router.get('/borra/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findById(
+        Video.findById(
             objeto,
             function (err, videos) {
                 if (err) return console.error(err);
@@ -148,7 +146,7 @@ router.get('/borra/:id', function (req, res, next) {
 router.get('/delete/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
-        User.findByIdAndRemove(
+        Video.findByIdAndRemove(
             req.params.id,
             function (err, videos) {
                 if (err) return console.error(err);
@@ -172,7 +170,7 @@ router.get('/show/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Video.findOne(
             objeto,
             function (err, videos) {
                 if (err) return console.error(err);
@@ -225,16 +223,16 @@ router.get('/show/:id', function (req, res, next) {
     }
 
 });*/
-router.post('/add', function (req, res, next) {
+router.post('/', function (req, res, next) {
     if (conectado) {
         console.log(req.body);
         var video = new Video({
-            username: req.body.nombre,
-            hash: req.body.pass,
-            title = req.body.title,
+            _id: req.body.id,
+            title: req.body.title,
+            comments : req.body.comments,
+            url : req.body.url
         });
-        usuario.setPassword(req.body.pass);
-        usuario.save(function (err, userdevuelto) {
+        video.save(function (err, userdevuelto) {
             if (err) {
                 return console.error(err);
             } else {
@@ -250,11 +248,18 @@ router.post('/add', function (req, res, next) {
     }
 
 });
-router.get("/uploadVideoGet",function(req,res){
-    console.log("presentando Video");
-    res.render("upload", {
-        title: 'Subir Video'
-    });
+router.post("/upload",function(req,res){
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.filetoupload.path;
+      var newpath = __dirname+'/../public/uploads/' + files.filetoupload.name;
+      fs.rename(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.write('http://localhost:3000/uploads/'+ files.filetoupload.name);
+        res.end();
+      });
+    }
+    );
 });
 
 module.exports = router;
