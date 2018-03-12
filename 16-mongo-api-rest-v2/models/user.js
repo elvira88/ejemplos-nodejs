@@ -4,14 +4,16 @@ var crypto = require('crypto');
 
 
 var UserSchema = new mongoose.Schema({
-    username: {type: String, lowercase: true, required: [true, "can't be blank"],unique: true, index: true},
+    _id: String,
+    nombreYApellidos: {type: String, lowercase: true, required: [true, "can't be blank"],unique: true, index: true},
     email: String,
     born: Date,
-    control: Boolean,
-    bio: String,
-    image: String,
-    hash: String,
-    salt: String,
+    password: String,
+    avatar: String,
+    historial: String,
+    listaDeReproduccion: String,
+    videosSubidos: String,
+    comentarios: String,
     
 }, {timestamps: true,collection:"user"});
 
