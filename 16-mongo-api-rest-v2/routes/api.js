@@ -279,11 +279,7 @@ router.get('/registerForm', function (req, res, next) {
 
 router.post('/register', function (req, res, next) {
     if (conectado) {
-        //console.log(req.body);
-       // if(req.body.control==undefined){
-        //    req.body.control=false;
-        //}
-        var usuario = new User({
+       var usuario = new User({
             username: req.body.nombre,
             hash: req.body.pass,
             email:req.body.email,
