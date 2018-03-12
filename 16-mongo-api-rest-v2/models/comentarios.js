@@ -3,12 +3,13 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 
 var ComentarioSchema = new mongoose.Schema({
-    username: String,
+    _id: String,
+    usuario: String,
     fecha: Date,
     mensaje: String,
-    video:String
+    video: String
     
-}, {timestamps: true,collection:"user"});
+}, {timestamps: true, collection: "comentarios"});
 
 
 var comentario = mongoose.model("Comentario", ComentarioSchema);
