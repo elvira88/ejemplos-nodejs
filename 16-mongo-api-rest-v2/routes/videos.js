@@ -236,13 +236,13 @@ router.post('/', function (req, res, next) {
             owner : req.body.owner,
             url : req.body.url,
         });
-        video.save(function (err, userdevuelto) {
+        video.save(function (err, videoDevuelto) {
             if (err) {
                 return console.error(err);
             } else {
-                console.log("video guardado");
+                console.log("vídeo guardado");
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(userdevuelto));
+                res.send(JSON.stringify(videoDevuelto));
             }
         });
     } else {
