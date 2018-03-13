@@ -9,10 +9,6 @@ var UserSchema = new mongoose.Schema({
     born: Date,
     password: String,
     avatar: String,
-    historial: String,
-    listaDeReproduccion: String,
-    videosSubidos: String,
-    comentarios: String,
     
 }, {timestamps: true,collection:"user"});
 
