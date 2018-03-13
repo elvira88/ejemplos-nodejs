@@ -227,16 +227,20 @@ router.post('/', function (req, res, next) {
     if (conectado) {
         console.log(req.body);
         var video = new Video({
-            _id: req.body.id,
             title: req.body.title,
             comments : req.body.comments,
-            url : req.body.url
+            rating : req.body.rating,
+            views : req.body.views,
+            label : req.body.label,
+            date : req.body.date,
+            owner : req.body.owner,
+            url : req.body.url,
         });
         video.save(function (err, userdevuelto) {
             if (err) {
                 return console.error(err);
             } else {
-                console.log("usuario guardado");
+                console.log("video guardado");
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(userdevuelto));
             }

@@ -37,7 +37,7 @@ router.get('/get/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Comentario.findOne(
             objeto,
             function (err, comentarios) {
                 if (err) return console.error(err);
@@ -59,7 +59,7 @@ router.get('/edita/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Comentario.findOne(
             objeto,
             function (err, comentarios) {
                 if (err) return console.error(err);
@@ -76,7 +76,7 @@ router.get('/edita/:id', function (req, res, next) {
     }
 
 });
-router.post('/edit/:id', function (req, res, next) {
+router.post('/:id', function (req, res, next) {
     if (conectado) {
         var objetoModificado = {};
         objetoModificado._id = req.params.id;
@@ -85,13 +85,13 @@ router.post('/edit/:id', function (req, res, next) {
         objetoModificado.mensaje = req.body.mensaje;
         objetoModificado.video = req.body.video;
         console.log(objetoModificado);
-        User.findByIdAndUpdate(
+        Comentario.findByIdAndUpdate(
             req.params.id,
             objetoModificado,
             function (err, comentarios) {
                 if (err) return console.error(err);
                 console.log(comentarios);
-                User.findById(
+                Comentario.findById(
                     req.params.id,
                     function (err, comentarios) {
                         if (err) return console.error(err);
@@ -109,20 +109,20 @@ router.post('/edit/:id', function (req, res, next) {
     }
 
 });
-/*router.get('/borra/:id', function (req, res, next) {
+router.get('/borra/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
         var objeto = {
 
         };
         objeto._id = req.params.id;
-        User.findById(
+        Comentario.findById(
             objeto,
             function (err, usuario) {
                 if (err) return console.error(err);
                 //console.log(users);
                 res.render('borra', {
-                    item: usuario
+                    item: comentarios
                 });
             }
         );
@@ -132,11 +132,11 @@ router.post('/edit/:id', function (req, res, next) {
         });
     }
 
-});*/
+});
 router.get('/delete/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
-        User.findByIdAndRemove(
+        Comentario.findByIdAndRemove(
             req.params.id,
             function (err, comentarios) {
                 if (err) return console.error(err);
@@ -160,7 +160,7 @@ router.get('/show/:id', function (req, res, next) {
 
         };
         objeto._id = req.params.id;
-        User.findOne(
+        Comentario.findOne(
             objeto,
             function (err, comentarios) {
                 if (err) return console.error(err);
@@ -178,11 +178,10 @@ router.get('/show/:id', function (req, res, next) {
     }
 
 });
-router.post('/add', function (req, res, next) {
+router.post('/', function (req, res, next) {
     if (conectado) {
         console.log(req.body);
         var comentario = new Comentario({
-            _id: req.body.id,
             usuario: req.body.usuario,
             fecha: req.body.fecha,
             mensaje: req.body.mensaje,
@@ -204,23 +203,5 @@ router.post('/add', function (req, res, next) {
     }
 
 });
-router.get("/uploadComentario",function(req,res){
-    console.log("presentando Comentario");
-    res.render("upload", {
-        title: 'Subir Comentario'
-    });
-});
-router.post("/uploadComentario",function(req,res){
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-      var oldpath = files.filetoupload.path;
-      var newpath = __dirname+'/../public/uploads/' + files.filetoupload.name;
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.write('Comentario subido');
-        res.end();
-      });
-    }
-    );
-});
+
 module.exports = router;
