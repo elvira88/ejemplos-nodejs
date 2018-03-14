@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema({
     nombreYApellidos: {type: String, lowercase: true, required: [true, "can't be blank"],unique: true, index: true},
     email: String,
     born: Date,
+    salt:String,
     password: String,
     avatar: String,
     
@@ -14,12 +15,12 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+  this.password = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
 };
 
 UserSchema.methods.validPassword = function(password) {
  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
- return this.hash === hash;
+ return this.password === hash;
 };
 
 var user = mongoose.model("User", UserSchema);

@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://192.168.99.100/test');
 var db = mongoose.connection;
 var conectado = false;
-var User = require("../models/user");
+var User = require("../models/users");
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log("Conexion abierta");
@@ -322,28 +322,27 @@ router.post('/login', function (req, res, next) {
     if (conectado) {
         console.log(req.body);
         var usuario = new User({
-            username: req.body.nombre,
-            hash: req.body.pass
+            nombreYApellidos: req.body.nombreYApellidos
         });
         var objeto = {
 
         };
-        objeto.username = usuario.username;
+        objeto.nombreYApellidos = usuario.nombreYApellidos;
         User.findOne(
             objeto,
-            function (err, user) {
+            function (err, usuarioc) {
                 if (err) return console.error(err);
                 //console.log(user);
-                if(user!=null && user.validPassword(usuario.hash)){
+                if(usuarioc!=null && usuarioc.validPassword(req.body.password)){
                     //login correcto
                     res.setHeader('Content-Type', 'application/json');
                     //guardo el objeto en sesión
                     var session=req.session;
-                    session.usuario=user;
+                    session.usuario=usuarioc;
                     //TODO Corregir que no se envie la contraseña
-                    delete user.hash;
-                    console.log(user);
-                    res.send(JSON.stringify(user));
+                    delete usuarioc.hash;
+                    console.log(usuarioc);
+                    res.send(JSON.stringify(usuarioc));
                 }else{
                     //login incorrecto
                     res.render('errorDB', {

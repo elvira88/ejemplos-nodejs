@@ -1,0 +1,85 @@
+/*
+1.- 
+Un módulo es simplemente una porción de código JavaScript ubicado en otra ubicación y esta diseñado para ser cargado de forma asíncrona.
+En su interior, podemos declarar una serie de variables y funciones que son independientes y no crean dependencia. entran en el concepto de encapsulación.
+
+
+*/
+
+/*
+2.- 
+*/
+var vehiculo = function(vid, tipo, velodidad, posicion){
+    
+}
+class vehiculo {
+    constructor (vid, tipo, velodidad, posicion){
+        this.vid=vid;
+        this.tipo=tipo;
+        this.velocidad=velocidad;
+        this.posicion=posicion;
+    }
+    avanza(tiempo){
+        
+    };
+    var coches= new Vehiculo();
+    var isVehiculo = coches instanceof Vehiculo; 
+    var aviones= new Vehiculo();
+    var isVehiculo = aviones instanceof Vehiculo;
+};
+/*
+3.- herencia
+*/
+class coches extends vehiculo{
+    super(vid, tipo, velodidad, posicion);
+}
+class aviones extends vehiculo{
+    super(vid, tipo, velodidad, posicion);
+}
+/*
+4.- 
+*/
+
+/*
+5.-
+Una función pura es una funcion donde el valor de retorno solo esta determinado por sus valores de entrada, sin recurrir a otro elemento fuera de ellas. Dado unos parámetros de entrada de idéntico valor, la función siempre devolverá el mismo resultado.
+ej:
+function pureFoo ( a, b ) {
+    return a + b;
+}
+*/
+
+/*
+6.- 
+*/
+
+/*
+7.- onmessage = function(e) {
+  console.log('Message received from main script');
+  var workerResult = 'Result: ' + (e.data[0] * e.data[1]);
+  console.log('Posting message back to main script');
+  postMessage(workerResult);
+  
+  function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("demo_workers.js");
+        }
+        w.onmessage = function(event) {
+            document.getElementById("result").innerHTML = event.data;
+        };
+    } else {
+        document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+    }
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
+}
+*/
+
+/*
+8.- 
+*/

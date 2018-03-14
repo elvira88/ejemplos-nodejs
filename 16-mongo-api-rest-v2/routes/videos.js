@@ -11,6 +11,7 @@ db.once('open', function () {
     conectado = true;
 
 });
+var formidable = require('formidable');
 var fs = require('fs');
 
 /* GET home page. */
@@ -81,6 +82,31 @@ router.get('/edita/:id', function (req, res, next) {
     }
 
 });
+router.post("/upload",function(req,res){
+    
+     if (!req.files){
+        console.log(req.files);
+        return res.status(400).send('No files were uploaded.');
+    }
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.filetoupload;
+    //console.log(req.files);
+    //console.log(sampleFile);
+    var newpath = __dirname+'/../public/uploads/' + sampleFile.name;
+    var rutaVideo = 'uploads/' + sampleFile.name;
+    sampleFile.mv(newpath, function(err) {
+        if (err){
+          return res.status(500).send(err);
+        }else{
+            console.log(newpath);
+            res.send("http://localhost:3000/public/uploads/"+ sampleFile.name);
+            
+        }
+    });
+    
+});
+
+
 router.post('/:id', function (req, res, next) {
     //console.log(req.params.id);
     if (conectado) {
@@ -251,19 +277,6 @@ router.post('/', function (req, res, next) {
         });
     }
 
-});
-router.post("/upload",function(req,res){
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-      var oldpath = files.filetoupload.path;
-      var newpath = __dirname+'/../public/uploads/' + files.filetoupload.name;
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.write('http://localhost:3000/uploads/'+ files.filetoupload.name);
-        res.end();
-      });
-    }
-    );
 });
 
 module.exports = router;

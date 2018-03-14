@@ -5,7 +5,7 @@ block content
   p Welcome to #{title}
   include includes/menu.pug
   div
-    h1 #{item.username}
+    h1 #{item.nombreYApellidos}
     h2 #{item.hash}
     a(class="btn btn-warning",id="modificar",href="/api/edita/"+item._id) Editar
     a(class="btn btn-danger",id="borrar",href="/api/borra/"+item._id) Borrar

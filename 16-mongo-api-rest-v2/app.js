@@ -11,14 +11,14 @@ var db = mongoose.connection;
 var uniqueValidator = require ('mongoose-unique-validator');
 var crypto = require ('crypto');
 
-var user=require('./models/user');
+var user=require('./models/users');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
 var comentarios = require('./routes/comentarios');
 var videos = require('./routes/videos');
-
+var fileUpload = require('express-fileupload');
 var app = express();
 app.use(session({secret: 'ssshhhhh'}));
 // view engine setup
@@ -29,6 +29,7 @@ app.set('json spaces', 2);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
